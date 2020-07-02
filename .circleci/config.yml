@@ -17,7 +17,8 @@ jobs:
             - run:
                   name: docker_build
                   command: |
-                      echo TAG: $CIRCLE_SHA1-$CIRCLE_BUILD_NUM
+                      echo TAG computed: $CIRCLE_SHA1-$CIRCLE_BUILD_NUM
+                      echo TAG computed with workflow: $CIRCLE_SHA1-$CIRCLE_WORKFLOW_ID
                       # IMAGE_TAG=`echo $CIRCLE_SHA1-$CIRCLE_BUILD_NUM`
                       # docker tag sh-farmforecast-be-admin:latest ${ECR_REPOSITORY}/${ECR_REPO_NAME}:${IMAGE_TAG}
                       # docker push ${ECR_REPOSITORY}/${ECR_REPO_NAME}:${IMAGE_TAG}
@@ -36,7 +37,9 @@ jobs:
             - run:
                   name: Kube Deployment sh-farmforecast-be-admin
                   command: |
-                      echo TAG: $CIRCLE_SHA1-$CIRCLE_BUILD_NUM
+                      echo TAG computed: $CIRCLE_SHA1-$CIRCLE_BUILD_NUM
+                      echo TAG computed with prev: $CIRCLE_SHA1-$CIRCLE_PREVIOUS_BUILD_NUM
+                      echo TAG computed with workflow: $CIRCLE_SHA1-$CIRCLE_WORKFLOW_ID
                       # IMAGE_TAG=`echo $CIRCLE_SHA1-$CIRCLE_BUILD_NUM`
                       # docker run --add-host .... --env IMAGE_TAG=${IMAGE_TAG} ... --deploy=true
 
