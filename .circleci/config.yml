@@ -8,6 +8,8 @@ executors:
         docker:
             - image: circleci/node:10.20
 
+# Docs: https://circleci.com/docs/2.0/env-vars/#built-in-environment-variables
+
 jobs:
     build-push-docker-image:
         machine: true
@@ -43,6 +45,13 @@ jobs:
                       # IMAGE_TAG=`echo $CIRCLE_SHA1-$CIRCLE_BUILD_NUM`
                       # docker run --add-host .... --env IMAGE_TAG=${IMAGE_TAG} ... --deploy=true
 
+    send-notifications:
+        machine: true
+        steps:
+            - run:
+                  name: Send push notification
+                  command: echo "Sending notifications... DONE"
+
 workflows:
     version: 2
 
@@ -54,3 +63,13 @@ workflows:
                   env: stage
                   requires:
                       - build-push-docker-image
+
+    notifications:
+        triggers:
+            - schedule:
+                  cron: "0 4 * * *"
+                  filters:
+                      branches:
+                          only: master
+        jobs:
+            - send-notifications
